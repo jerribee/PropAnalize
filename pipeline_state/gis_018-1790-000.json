@@ -1,16 +1,48 @@
 {
   "address": "2 Dwight St, Cranston, RI 02921",
-  "checked_at": "2026-09-17T20:46:21.400926+00:00",
+  "checked_at": "2026-09-17T20:48:40.463059+00:00",
   "layers": {
     "flood_zone": {
       "source": "RIEMA \u2014 RI Floodplain Mapping Tool 4.0",
-      "found": false,
-      "attributes": null
+      "found": true,
+      "attributes": {
+        "OBJECTID": 2272,
+        "DFIRM_ID": "44007C",
+        "VERSION_ID": "1.1.1.0",
+        "FLD_AR_ID": "44007C_2272",
+        "STUDY_TYP": "NP",
+        "FLD_ZONE": "X",
+        "ZONE_SUBTY": "0.2 PCT ANNUAL CHANCE FLOOD HAZARD",
+        "SFHA_TF": "F",
+        "STATIC_BFE": -9999.0,
+        "V_DATUM": " ",
+        "DEPTH": -9999.0,
+        "LEN_UNIT": " ",
+        "VELOCITY": -9999.0,
+        "VEL_UNIT": " ",
+        "AR_REVERT": " ",
+        "AR_SUBTRV": " ",
+        "BFE_REVERT": -9999.0,
+        "DEP_REVERT": -9999.0,
+        "DUAL_ZONE": " ",
+        "SOURCE_CIT": "44007C_STUDY1",
+        "Shape.STArea()": 310159.77378845215,
+        "Shape.STLength()": 4872.031041861094
+      }
     },
     "wetland_jurisdiction": {
       "source": "RIDEM/CRMC \u2014 Wetland Jurisdiction",
-      "found": false,
-      "attributes": null
+      "found": true,
+      "attributes": {
+        "OBJECTID": 321,
+        "DEM_EP_GDB.DBO.WATER_Wetland_Jurisdiction.AREA": 24245747120.0,
+        "PERIMETER": 1014982.72535,
+        "AGENCY": "DEM",
+        "SUBSTRATE": "Land",
+        "SqMi": 869.697,
+        "Shape.STArea()": 24245747121.343903,
+        "Shape.STLength()": 1014982.7259210306
+      }
     },
     "parcel": {
       "source": "RI State / RIDEM \u2014 Statewide Tax Parcels",
