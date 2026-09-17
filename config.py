@@ -46,8 +46,8 @@ PROPERTIES = [
         # geocoder) before running for real — do not trust a placeholder
         # coordinate the way this tool refuses to trust an unverified
         # zoning district.
-        "lat": None,
-        "lng": None,
+        "lat": -71.485076369071,
+        "lng": 41.751743272519,
         "parcel_id": "018-1790-000",
     },
 ]
