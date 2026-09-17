@@ -1,0 +1,21 @@
+{
+  "address": "2 Dwight St, Cranston, RI 02921",
+  "checked_at": "2026-09-17T20:46:21.400926+00:00",
+  "layers": {
+    "flood_zone": {
+      "source": "RIEMA \u2014 RI Floodplain Mapping Tool 4.0",
+      "found": false,
+      "attributes": null
+    },
+    "wetland_jurisdiction": {
+      "source": "RIDEM/CRMC \u2014 Wetland Jurisdiction",
+      "found": false,
+      "attributes": null
+    },
+    "parcel": {
+      "source": "RI State / RIDEM \u2014 Statewide Tax Parcels",
+      "found": false,
+      "attributes": null
+    }
+  }
+}
