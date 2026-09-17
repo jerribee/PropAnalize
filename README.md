@@ -39,6 +39,42 @@ Both write their state to `pipeline_state/` as JSON — swap this for a real dat
 once there's more than one property or town being tracked; the JSON files are there
 so this is runnable and inspectable without standing up infrastructure first.
 
+## Live API — `api/main.py`
+A small FastAPI service with one real endpoint: `GET /api/property?address=...`.
+Geocodes the address (U.S. Census geocoder, free, no key) and runs the same
+point-in-polygon queries as Track A, on demand, for whatever address a visitor
+types in — this is what a real dashboard calls instead of reading static state
+files.
+
+Run it:
+```
+pip install -r requirements.txt
+uvicorn api.main:app --reload
+```
+Then open `http://127.0.0.1:8000/docs` for interactive API docs (free from
+FastAPI), or call it directly:
+```
+curl "http://127.0.0.1:8000/api/property?address=2+Dwight+St,+Cranston,+RI+02921"
+```
+
+Tested end-to-end with mocked network responses (geocoder + a RIGIS layer hit,
+plus the "address didn't geocode" error path) — all three passed. Not yet
+tested against the live Census/RIGIS services from this environment, for the
+same sandboxing reason as the rest of this pipeline; verify with a real
+request before pointing production traffic at it.
+
+Notes before deploying:
+- `allow_origins=["*"]` in the CORS setup is fine for local development only —
+  lock it to your actual dashboard's domain before this goes live.
+- The in-memory cache disappears on every restart and isn't shared across
+  serverless instances — fine for a demo, worth moving to Redis or the
+  database once there's real traffic.
+- This endpoint doesn't yet return the zoning district or dimensional
+  standards — only the layers with confirmed, queryable RIGIS endpoints
+  (flood, wetlands, parcel). Wiring in the actual Cranston zoning boundary
+  layer is the next piece, once its FeatureServer URL is confirmed the same
+  way the other three were.
+
 ## Running on a schedule
 `.github/workflows/monthly-refresh.yml` runs both scripts on the 1st of each month via
 GitHub Actions (free for public repos, generous free minutes for private ones) and
