@@ -1,0 +1,37 @@
+name: Monthly data refresh
+
+on:
+  schedule:
+    # 03:00 UTC on the 1st of every month. Cron runs on GitHub's schedule,
+    # not necessarily the exact minute — fine for a monthly job.
+    - cron: "0 3 1 * *"
+  workflow_dispatch: {}  # lets you trigger a run manually from the Actions tab
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r pipeline/requirements.txt
+
+      - name: Track A — GIS layer refresh
+        run: python3 track_a_gis_refresh.py
+        working-directory: pipeline
+
+      - name: Track B — ordinance change detection
+        run: python3 track_b_ordinance_watch.py
+        working-directory: pipeline
+
+      - name: Commit updated state
+        run: |
+          git config user.name "property-intel-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add pipeline/pipeline_state
+          git diff --cached --quiet || git commit -m "Monthly data refresh $(date -u +%Y-%m-%d)"
+          git push
