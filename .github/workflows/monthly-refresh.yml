@@ -1,1 +1,33 @@
- name: Monthly data refresh on: schedule: - cron: "0 3 1 * *" workflow_dispatch: {} jobs: refresh: runs-on: ubuntu-latest steps: - uses: actions/checkout@v4 - uses: actions/setup-python@v5 with: python-version: "3.12" - name: Install dependencies run: pip install -r requirements.txt - name: Track A — GIS layer refresh run: python3 track_a_gis_refresh.py - name: Track B — ordinance change detection run: python3 track_b_ordinance_watch.py - name: Commit updated state run: | git config user.name "property-intel-bot" git config user.email "actions@users.noreply.github.com" git add pipeline_state git diff --cached --quiet || git commit -m "Monthly data refresh $(date -u +%Y-%m-%d)"
+name: Monthly data refresh
+
+on:
+  schedule:
+    - cron: "0 3 1 * *"
+  workflow_dispatch: {}
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Track A — GIS layer refresh
+        run: python3 track_a_gis_refresh.py
+
+      - name: Track B — ordinance change detection
+        run: python3 track_b_ordinance_watch.py
+
+      - name: Commit updated state
+        run: |
+          git config user.name "property-intel-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add pipeline_state
+          git diff --cached --quiet || git commit -m "Monthly data refresh $(date -u +%Y-%m-%d)"
+          git push
